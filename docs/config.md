@@ -8,8 +8,8 @@
 
 The field of AAI has a tendency of having slightly diverging semantics for the same word, so please bear with us and read the following:
 * **sysadmin** somebody that has file-system level access to this application. This person is the one that installs and configures the system and is able to change anything any time, except the audit logs (if there is an external timestamp service used)
-* **platform admin**: somebody that has full access to an [AdminTool](docs/install.md#AdminTool) that allows to change AUP and email texts, translations, attribute definitions, etc, as well as access to user data.
-* **community admin**: a person that has limited access to an [AdminTool](docs/install.md#AdminTool) and may set some user data like entitlements or possibly can import/export users, gain statistics.
+* **platform admin**: somebody that has full access to an [AdminTool](install.md#AdminTool) that allows to change AUP and email texts, translations, attribute definitions, etc, as well as access to user data.
+* **community admin**: a person that has limited access to an [AdminTool](install.md#AdminTool) and may set some user data like entitlements or possibly can import/export users, gain statistics.
 * **end user**: a simple user
 * **local account**: it is the main user account, over which this system has authority. It is an important distinction, since there are remote accounts as well. The local account is the only one that "officially" has attributes, that may be released. There can be multiple remote accounts connected to a local account and there might be an incoming attribute set recorded for them, but those are not part of the official user record.
 

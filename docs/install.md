@@ -18,7 +18,7 @@ The key of the attribute mappings should be the attribute internal names, while 
 
 ## Installing the code
 
-To install the code, set up a location protected by your SAML middleware and then simply unzip the code bundle and edit **conf.php** as described in the [setup documentation](docs/install.md). You may brand and theme your deployment by editing the appropriate files (see the setup docs).
+To install the code, set up a location protected by your SAML middleware and then simply unzip the code bundle and edit **conf.php** as described in the [setup documentation](install.md). You may brand and theme your deployment by editing the appropriate files (see the setup docs).
 
 # Database schema
 
@@ -27,7 +27,7 @@ First, you need to create a mysql/mariadb database and get a user to it, which y
 **mysqli**, the php-mysql implementation kissreg uses relies on connection pool-like behavior called "persistent" connections by default. Makes sure that is indeed the case and this feature is not turned off in (what you want is: **mysqli.allow_persistent = On**), otherwise you will suffer a performance hit.
 
 Then, log in to the database and create the schema  and fill in the attribute specifications and translations with the sql commands documented in:
-[database documentation](docs/database.md)
+[database documentation](database.md)
 
 # Account Linking
 
