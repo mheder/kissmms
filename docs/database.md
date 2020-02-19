@@ -3,7 +3,21 @@ SET NAMES utf8;
 SET time_zone = '+00:00';
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
+/*
+# uncomment this block if you want also to drop the tables before creating
+# naturally all of your data will be lost
+
 DROP TABLE IF EXISTS `accounts`;
+DROP TABLE IF EXISTS `attributes`;
+DROP TABLE IF EXISTS `attribute_defs`;
+DROP TABLE IF EXISTS `audit_logs`;
+DROP TABLE IF EXISTS `auxi_lang`;
+DROP TABLE IF EXISTS `auxi_pages`;
+DROP TABLE IF EXISTS `email_tokens`;
+DROP TABLE IF EXISTS `iuids`;
+DROP TABLE IF EXISTS `remote_accounts`;
+*/
+
 CREATE TABLE `accounts` (
   `cuid` varchar(64) NOT NULL COMMENT 'CUID',
   `is_complete` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT 'IsComplete',
@@ -13,7 +27,7 @@ CREATE TABLE `accounts` (
   `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp() COMMENT 'UpdatedAt'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Accounts';
 
-DROP TABLE IF EXISTS `attributes`;
+
 CREATE TABLE `attributes` (
   `cuid` varchar(64) NOT NULL COMMENT 'CUID',
   `name` varchar(64) NOT NULL COMMENT 'Name',
@@ -24,7 +38,6 @@ CREATE TABLE `attributes` (
   UNIQUE KEY `cuid_name_source` (`cuid`,`name`,`source`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Attributes';
 
-DROP TABLE IF EXISTS `attribute_defs`;
 CREATE TABLE `attribute_defs` (
   `name` varchar(32) NOT NULL COMMENT 'AttributeName',
   `required` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT 'Required',
@@ -43,7 +56,6 @@ INSERT INTO `attribute_defs` (`name`, `required`, `multival`, `customizable`, `d
 ('nickname',	'Y',	'N',	'Y',	'Y',	'/^[\\w]+$/'),
 ('source_id',	'Y',	'N',	'N',	'Y',	'NULL');
 
-DROP TABLE IF EXISTS `audit_logs`;
 CREATE TABLE `audit_logs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `actor_cuid` varchar(128) NOT NULL COMMENT 'Actor',
@@ -55,8 +67,6 @@ CREATE TABLE `audit_logs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Audit Log';
 
-
-DROP TABLE IF EXISTS `auxi_lang`;
 CREATE TABLE `auxi_lang` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `txkey` varchar(128) NOT NULL COMMENT 'Key',
@@ -162,7 +172,6 @@ INSERT INTO `auxi_lang` (`id`, `txkey`, `lang`, `content`) VALUES
 (94,	'data',	'en',	'Data'),
 (95,	'timestamp',	'en',	'Timestamp');
 
-DROP TABLE IF EXISTS `auxi_pages`;
 CREATE TABLE `auxi_pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `txkey` varchar(128) NOT NULL COMMENT 'Key',
@@ -172,7 +181,6 @@ CREATE TABLE `auxi_pages` (
   UNIQUE KEY `en_url` (`txkey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='StaticContent';
 
-DROP TABLE IF EXISTS `email_tokens`;
 CREATE TABLE `email_tokens` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` enum('invite','verify') NOT NULL COMMENT 'Type',
@@ -184,13 +192,11 @@ CREATE TABLE `email_tokens` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Email Tokens';
 
-DROP TABLE IF EXISTS `iuids`;
 CREATE TABLE `iuids` (
   `iuid` varchar(128) NOT NULL COMMENT 'IUID',
   `remote_account_id` int(11) NOT NULL COMMENT 'Remote Account Id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='IUIDs';
 
-DROP TABLE IF EXISTS `remote_accounts`;
 CREATE TABLE `remote_accounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `cuid` varchar(64) NOT NULL COMMENT 'CUID',
