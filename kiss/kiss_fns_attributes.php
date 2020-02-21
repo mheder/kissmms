@@ -19,7 +19,7 @@
 ############################################################################
 
 function generate_cuid() {
-    return bin2hex(random_bytes(12)) . "@yourcommunity.org";
+    return bin2hex(random_bytes(12)) . $GLOBALS['kiss']['community_scope'];
 }
 
 function check_for_similar_account($attributes) {

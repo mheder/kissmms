@@ -26,7 +26,7 @@
 ###########################################################
 
 # replace this to your FQDN!
-$baseurl="http://localhost/dev/kissmms";
+$core['baseurl']="http://localhost/dev/kissmms";
 
 ###########################################################
 # branding
@@ -34,18 +34,18 @@ $baseurl="http://localhost/dev/kissmms";
 # logo, css, relative to baseurl.  
 # No need for '/' at the beginning.
 #
-# See docs/install.md "Branding" section!
+# See docs/config.md "Branding" section!
 #
 ###########################################################
 
-$left_logo = "img/logo.jpg";
+$core['left_logo'] = "img/logo.jpg";
 # $left_logo = "customizations/logo_reg.jpg";
-$head_logo = "customizations/yourbrand_logo.png";
+$core['head_logo'] = "customizations/yourbrand_logo.png";
 
 # "core/style/style.css" is the primary css file
 # if you change it it will be "overridden". You can also 
 # use additional css with customcss (see next item)
-$css = "core/style/style.css";
+$core['css'] = "core/style/style.css";
 
 # $customcss = "customizations/extrastyles.css";
 
@@ -56,16 +56,17 @@ $css = "core/style/style.css";
 # You can hide things so that 
 # they will need explicit link to access
 #
-$menuitems = array("index.php","audit_logs.php","acc_link.php","aup_new_user.php");
+$core['menuitems'] = array("index.php","audit_logs.php","acc_link.php","aup_new_user.php");
 
 ###########################################################
 # Database connection info
 ###########################################################
 
-$db_host = "localhost"; 
-$db_user = "kissmms";
-$db_pass = "your-kissmms-database-password";
-$db_name = "kissmms";
+#replace these to the actual db credentials!
+$core['db_host'] = "localhost"; 
+$core['db_user'] = "kissmms";
+$core['db_pass'] = "your-kissmms-database-password";
+$core['db_name'] = "kissmms";
 
 ###########################################################
 # language codes
@@ -73,70 +74,58 @@ $db_name = "kissmms";
 # Enumerate the languages you support by a lang code.
 # You will have to write the proper strings for all 
 # languages.
-# See docs/install.md "Translations" section!
+# See docs/config.md "Translations" section!
 ###########################################################
 
-$ls_languages = array("en");
-
-###########################################################
-# email settings
-###########################################################
-#
-# See docs/install.md "Email" section!
-#
-###########################################################
-
-# the From: field of the emails sent out by us
-$email_from = "root@localhost";
+$core['ls_languages'] = array("en");
 
 ###########################################################
 # log settings
 ###########################################################
 #
-# See docs/install.md "Log" section!
+# See docs/config.md "Log" section!
 #
 ###########################################################
 
 # debug log
-$debug_log = true;
+$core['debug_log'] = true;
 
 # trace log: very aggressive, really use it as last resort
-$trace_log = false;
+$core['trace_log'] = false;
 
 ###########################################################
 # attribute mappings
 ###########################################################
 #
-# See docs/install.md "Attribute Mappings" section!
+# See docs/config.md "Attribute Mappings" section!
 #
 ###########################################################
 
-$attribute_mappings = array();
+$kiss['attribute_mappings'] = array();
 
 # it is mandatory to have a mapping value for these:
-$attribute_mappings["iuid"] = ["schacPersonalUniqueCode"];
-$attribute_mappings["source_id"] = ["schacHomeOrganization"];
+$kiss['attribute_mappings']["iuid"] = ["schacPersonalUniqueCode"];
+$kiss['attribute_mappings']["source_id"] = ["schacHomeOrganization"];
     
 # one-to-one mapping example:
-$attribute_mappings["orcid"] = ["eduPersonOrcid"];
+$kiss['attribute_mappings']["orcid"] = ["eduPersonOrcid"];
 # many-to-one mapping example:
-$attribute_mappings["email"] = ["mail","email"];
+$kiss['attribute_mappings']["email"] = ["mail","email"];
 
 #some common mappings
-$attribute_mappings["first_name"] = ["givenName", "firstName"];
-$attribute_mappings["last_name"] = ["sn", "lastName"];
-$attribute_mappings["assurance"] = ["assurance"];
-
+$kiss['attribute_mappings']["first_name"] = ["givenName", "firstName"];
+$kiss['attribute_mappings']["last_name"] = ["sn", "lastName"];
+$kiss['attribute_mappings']["assurance"] = ["assurance"];
 
 ###########################################################
 # Account Linking
 ###########################################################
 #
 # See docs/install.md "Account linking" section!
-#
+# 
 ###########################################################
-$shib_cookie_name = "_shibsession";
-$forceauthn_header = "Location: /Shibboleth.sso/Login?forceAuthn=true&target=" . urlencode($baseurl. '/acc_link.php');
+$kiss['shib_cookie_name'] = "_shibsession";
+$kiss['forceauthn_header'] = "Location: /Shibboleth.sso/Login?forceAuthn=true&target=" . urlencode($baseurl. '/acc_link.php');
 
 ###########################################################
 # API
@@ -145,6 +134,27 @@ $forceauthn_header = "Location: /Shibboleth.sso/Login?forceAuthn=true&target=" .
 # See docs/install.md "API" section!
 #
 ###########################################################
-$api_basepath = "/dev/kissmms/api.php/";
+$kiss['api_basepath'] = "/dev/kissmms/api.php/";
+
+###########################################################
+# email settings
+###########################################################
+#
+# See docs/config.md "Email" section!
+#
+###########################################################
+
+# the From: field of the emails sent out by us
+$kiss['email_from'] = "root@localhost";
+
+###########################################################
+# community scope
+###########################################################
+#
+# See docs/config.md "scope" section!
+#
+###########################################################
+# community scope for CUID generation
+$kiss['community_scope'] = "@yourcommunity.org";
 
 ?>

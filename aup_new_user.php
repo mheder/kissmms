@@ -18,7 +18,7 @@
 #
 ############################################################################
 
-include "core/init.php";
+include "kiss/init.php";
 make_header($menuitems);
 
 echo auxi_static_content("aup");

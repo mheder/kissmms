@@ -27,13 +27,13 @@ function auxi_log_error($msg) {
 }
 
 function auxi_log_debug($msg) {
-    if ($GLOBALS['debug_log']) {
+    if ($GLOBALS['core']['debug_log']) {
         trigger_error($msg,E_USER_NOTICE);
     }
 }
 
 function auxi_log_trace($msg) {
-    if ($GLOBALS['trace_log']) {
+    if ($GLOBALS['core']['trace_log']) {
         trigger_error($msg,E_USER_NOTICE);
     }
 }

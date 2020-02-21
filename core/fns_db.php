@@ -26,7 +26,7 @@
 # mysqli.allow_persistent
 #
 function getConnection() {
-    $con = mysqli_connect($GLOBALS['db_host'], $GLOBALS['db_user'], $GLOBALS['db_pass'], $GLOBALS['db_name']);
+    $con = mysqli_connect($GLOBALS['core']['db_host'], $GLOBALS['core']['db_user'], $GLOBALS['core']['db_pass'], $GLOBALS['core']['db_name']);
     mysqli_set_charset($con, "utf8");
     if (!$con) {
         error_log("Error: " . mysqli_connect_error());

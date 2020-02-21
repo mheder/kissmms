@@ -106,18 +106,24 @@ Attribute mappings are defined in **conf.php** in the ```$attribute_mappings``` 
 Examples:
 ```
 # one-to-one mapping example:
-$attribute_mappings["orcid"] = ["eduPersonOrcid"];
+$kiss['attribute_mappings']["orcid"] = ["eduPersonOrcid"];
 # many-to-one mapping example:
-$attribute_mappings["email"] = ["mail","email"];
+$kiss['attribute_mappings']["email"] = ["mail","email"];
 
 # it is mandatory to have a mapping value for these:
-$attribute_mappings["iuid"] = ["iuid"];
-$attribute_mappings["source"] = ["shacHomeOrganization"];
+$kiss['attribute_mappings']["iuid"] = ["iuid"];
+$kiss['attribute_mappings']["source"] = ["shacHomeOrganization"];
 
 #some common mappings
-$attribute_mappings["first_name"] = ["first_name"];
-$attribute_mappings["last_name"] = ["last_name"];
-$attribute_mappings["assurance"] = ["eduPersonAssurance"];
+$kiss['attribute_mappings']["first_name"] = ["first_name"];
+$kiss['attribute_mappings']["last_name"] = ["last_name"];
+$kiss['attribute_mappings']["assurance"] = ["eduPersonAssurance"];
 
 ```
 
+### community scope
+
+Community scope is the suffix of the Community Identifier. This is the same for all users and should be community-specific. In the config, see the following line:
+```
+$kiss['community_scope'] = "@yourcommunity.org";
+```

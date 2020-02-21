@@ -18,7 +18,7 @@
 #
 ############################################################################
 
-include "core/init.php";
+include "kiss/init.php";
 
 $attribute_defs = load_attribute_definitions();
 

@@ -18,7 +18,7 @@
 #
 ############################################################################
 
-include "core/init.php";
+include "kiss/init.php";
 
 ###########################################################
 # Account linking
@@ -35,7 +35,7 @@ include "core/init.php";
 
 $attribute_defs = load_attribute_definitions();
 # attribute_mappings come from config
-$incoming_mapped_attributes = load_attributes($attribute_mappings);
+$incoming_mapped_attributes = load_attributes($kiss['attribute_mappings']);
 
 sanity_check_incoming_attributes($incoming_mapped_attributes);
 

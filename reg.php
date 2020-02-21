@@ -18,11 +18,11 @@
 #
 ############################################################################
 
-include "core/init.php";
+include "kiss/init.php";
 
 $attribute_defs = load_attribute_definitions();
 # attribute_mappings come from config
-$incoming_mapped_attributes = load_attributes($attribute_mappings);
+$incoming_mapped_attributes = load_attributes($kiss['attribute_mappings']);
 
 ###########################################################
 # look up user based on IUIDs, see if new user or existing

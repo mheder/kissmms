@@ -18,7 +18,7 @@
 #
 ############################################################################
 
-include "core/init.php";
+include "kiss/init.php";
 
 # in case of shibboleth,
 # instead of curl-ing the logout url (uncertain) we get rid of the shib session cookie

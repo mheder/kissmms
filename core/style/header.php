@@ -4,9 +4,9 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title><?php echo auxi_lang("pagetitle_".$GLOBALS['pagename']); ?></title>
-    <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['baseurl'] . "/" . $GLOBALS['css'];?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['core']['baseurl'] . "/" . $GLOBALS['core']['css'];?>">
     <?php if (isset($GLOBALS['customcss'])) { ?>
-    <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['baseurl'] . "/" . $GLOBALS['customcss'];?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['core']['baseurl'] . "/" . $GLOBALS['customcss'];?>">
     <?php } ?>
 <body>
     <div id="main">
@@ -17,11 +17,11 @@
                 </div>
                 <?php
 
-                    foreach($menuitems as $menuitem) {
+                    foreach($GLOBALS['core']['menuitems'] as $menuitem) {
                         ?>
                             <div class="menuitem">
                                 <?php if($menuitem != $GLOBALS['pagename']) { ?>
-                                <a href="<?php echo $GLOBALS['baseurl'] . "/" . $menuitem; ?>">
+                                <a href="<?php echo $GLOBALS['core']['baseurl'] . "/" . $menuitem; ?>">
                                 <?php echo auxi_lang("menuitem_" . $menuitem); ?></a>
                                 <?php } else { ?>
                                 <b><?php echo auxi_lang("menuitem_" . $menuitem); ?></b>
@@ -34,12 +34,12 @@
                 <div id="aboutbox">
                     <span id="about-title"><?php echo auxi_lang("bannerabouttitle"); ?></span>
                     <span id="about-text"><?php echo auxi_lang("bannerabout"); ?></span>
-                    <img id="logo" alt="logo" src="<?php echo $GLOBALS['baseurl'] . "/" . $GLOBALS['left_logo']; ?>"/>
+                    <img id="logo" alt="logo" src="<?php echo $GLOBALS['core']['baseurl'] . "/" . $GLOBALS['core']['left_logo']; ?>"/>
                 </div>
             </div>
         </div>
         <div id="leftbar">
             <div id="headbox">
-                <img id="headbox-img" src="<?php echo $GLOBALS['baseurl'] . "/" . $GLOBALS['head_logo']; ?>" />
+                <img id="headbox-img" src="<?php echo $GLOBALS['core']['baseurl'] . "/" . $GLOBALS['core']['head_logo']; ?>" />
             </div>
             <div id="content">

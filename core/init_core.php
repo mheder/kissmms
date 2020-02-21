@@ -24,38 +24,16 @@ require_once "core/fns_env.php";
 require_once "core/fns_log.php";
 require_once "core/fns_misc.php";
 
-require_once "kiss/kiss_fns_attributes.php";
-require_once "kiss/kiss_fns_crypto.php";
-require_once "kiss/kiss_fns_email.php";
-require_once "kiss/kiss_fns_audit.php";
-
-session_start();
-
 include "conf.php";
 
-###########################################################
-# database info
-###########################################################
+#pick up all variables
+$GLOBALS['core'] = $core;
 
-$GLOBALS['db_host'] = $db_host;
-$GLOBALS['db_user'] = $db_user;
-$GLOBALS['db_pass'] = $db_pass;
-$GLOBALS['db_name'] = $db_name;
-
-###########################################################
-# baseurl, logos
-###########################################################
-
-$GLOBALS['baseurl'] = $baseurl;
-
-$GLOBALS['left-logo'] = $left_logo;
-$GLOBALS['head-logo'] = $head_logo;
-
-if (!empty($customcss)) {
-    if (!file_exists($customcss)) {
-        log_error("Configured custom CSS:".$customcss." does not exist.");
+if (!empty($core['customcss'])) {
+    if (!file_exists($core['customcss'])) {
+        log_error("Configured custom CSS:".$core['customcss']." does not exist.");
     } else {
-        $GLOBALS['customcss'] = $customcss;
+        $GLOBALS['customcss'] = $core['customcss'];
     }
 }
 
@@ -68,21 +46,10 @@ load_pageinfo_to_globals();
 ###########################################################
 # decide actual lang
 ###########################################################
-if (count($ls_languages) == 1) {
-    $GLOBALS['lang'] = $ls_languages[0];
+if (count($core['ls_languages']) == 1) {
+    $GLOBALS['lang'] = $core['ls_languages'][0];
 }
 // TODO multi-lang
-
-###########################################################
-# email settings
-###########################################################
-$GLOBALS['email_from'] = $email_from;
-
-###########################################################
-# log settings
-###########################################################
-$GLOBALS['debug_log'] = $debug_log;
-$GLOBALS['trace_log'] = $trace_log;
 
 ###########################################################
 # html elements, default or custom
@@ -108,16 +75,6 @@ if (file_exists("customizations/elements.php")) {
     require_once 'customizations/elements.php';
 } else {
     require_once "core/style/elements.php";
-}
-
-###########################################################
-# customizations
-###########################################################
-
-if (file_exists("customizations/fns_email.php")) {
-    require_once 'customizations/fns_email.php';
-} else {
-    require_once "core/fns_email.php";
 }
 
 ?>

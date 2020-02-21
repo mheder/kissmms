@@ -18,21 +18,26 @@
 #
 ############################################################################
 
-#
-# This will use whatever is set up in php ini to send email
-# see the php configuration "sendmail_path"
-# recommended to use ssmtp
-#
-function auxi_send_email($to, $subject, $message, $html = false) {
+require_once "kiss/kiss_fns_attributes.php";
+require_once "kiss/kiss_fns_crypto.php";
+require_once "kiss/kiss_fns_email.php";
+require_once "kiss/kiss_fns_audit.php";
 
-    $headers[] = 'MIME-Version: 1.0';
-    if ($html) {
-        $headers[] = 'Content-type: text/html; charset=utf-8';
-    }
-    $headers[] = 'From: ' . $GLOBALS['kiss']['email_from'];
+include "core/init_core.php";
 
-    mail($to, $subject, $message, $headers);
+session_start();
 
+#pick up all variables
+$GLOBALS['kiss'] = $kiss;
+
+###########################################################
+# customizations
+###########################################################
+
+if (file_exists("customizations/fns_email.php")) {
+    require_once 'customizations/fns_email.php';
+} else {
+    require_once "core/fns_email.php";
 }
 
 ?>
