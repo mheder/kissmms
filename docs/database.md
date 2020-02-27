@@ -13,14 +13,14 @@ FLUSH PRIVILEGES;
 Of course, alternatively you may use other tools, like phpadmin, adminer, etc. to create the database itself, or in a hosted environment it may be provided to you.
 
 ## Setting up the database schema
-Within the database you just created and run the SQL commands in **kissmms_schema.sql** to create the tables:
+Within the database you just created and run the SQL commands in [kissmms_schema.sql](kissmms_schema.sql) to create the tables:
 ```
 cat docs/kissmms_schema.sql|mysql -u root -p
 ```
 Or, if you are not using command line, but some other tool, copy-paste the contents of **kissmms_schema.sql** and run them as SQL.
 
 ## Translations
-Finally, you have to add at least one translation. It is highly recommended that you add the English translation as a minimum.
+Finally, you have to add at least one translation. It is highly recommended that you add the English translation, [kissmms_translation_en.sql](kissmms_translation_en.sql) as a minimum.
 
 Like in the previous step, you can the SQL commands.
 ```
