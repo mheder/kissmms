@@ -97,7 +97,7 @@ CREATE TABLE `auxi_lang` (
   `lang` varchar(4) NOT NULL COMMENT 'Lang',
   `content` text DEFAULT NULL COMMENT 'Value',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `en_url` (`txkey`)
+  UNIQUE KEY `txkey_lang` (`txkey`,`lang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Translations';
 
 CREATE TABLE `auxi_pages` (
@@ -106,5 +106,5 @@ CREATE TABLE `auxi_pages` (
   `lang` varchar(4) NOT NULL COMMENT 'Lang',
   `content` text DEFAULT NULL COMMENT 'Content',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `en_url` (`txkey`)
+  UNIQUE KEY `txkey_lang` (`txkey`,`lang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='StaticContent';
