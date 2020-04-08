@@ -20,7 +20,7 @@
 
 function audit_log($actor_cuid, $target_cuid, $action, $data = "") {
     $connection = "Netaddr:" . $_SERVER['REMOTE_ADDR'];
-    db_insert("INSERT INTO audit_logs (actor_cuid, target_cuid, `action`, connection, `data`) VALUES (?,?,?,?,?)",
+    db_insert("INSERT INTO kiss_audit_logs (actor_cuid, target_cuid, `action`, connection, `data`) VALUES (?,?,?,?,?)",
         $actor_cuid,$target_cuid,$action,$connection, $data);
 }
 

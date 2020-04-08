@@ -32,7 +32,7 @@ $cuid = get_cuid_for_remote_accts($remote_accounts);
 # unknown user
 if (empty($remote_accounts)) {
     make_header($menuitems);
-    make_error_message(auxi_lang("unknown_user"));
+    make_error_message(core_lang("unknown_user"));
     make_footer();
     exit(0);
 } 
@@ -41,24 +41,24 @@ $attrname = filter_input(INPUT_GET, 'attrname', FILTER_SANITIZE_STRING);
 
 if(!isset($attribute_defs[$attrname])) {
     make_header($menuitems);
-    make_error_message(auxi_lang("undefined_attribute",$attrname));
+    make_error_message(core_lang("undefined_attribute",$attrname));
     make_footer();
     exit(0); 
 }
 
 if($attribute_defs[$attrname]["customizable"] != "Y") {
     make_header($menuitems);
-    make_error_message(auxi_lang("attr_not_editable",$attrname));
+    make_error_message(core_lang("attr_not_editable",$attrname));
     make_footer();
     exit(0); 
 }
 
 # This edits the first one. TODO multi-value edit
-$attrdata = query_matrix("SELECT name,source,value FROM attributes WHERE name = ? AND cuid = ? AND source = 'user_input' LIMIT 1",$attrname, $cuid);
+$attrdata = query_matrix("SELECT name,source,value FROM kiss_attributes WHERE name = ? AND cuid = ? AND source = 'user_input' LIMIT 1",$attrname, $cuid);
 
 make_header($menuitems);
-make_important_box(auxi_lang("attr_edit_head"));
-make_text(auxi_lang("your_cuid",$cuid));
+make_important_box(core_lang("attr_edit_head"));
+make_text(core_lang("your_cuid",$cuid));
 if (!empty($attrdata)) {
     make_attr_edit_form($attrdata);
 } else {

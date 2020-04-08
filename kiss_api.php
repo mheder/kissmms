@@ -20,28 +20,18 @@
 
 include "kiss/init.php";
 
-$attribute_defs = load_attribute_definitions();
-$incoming_mapped_attributes = load_attributes($kiss['attribute_mappings']);
+//echo $_SERVER['REQUEST_URI'] . "<br/>";
 
-sanity_check_incoming_attributes($incoming_mapped_attributes);
+$api_actual = str_replace($api_basepath,"",$_SERVER['REQUEST_URI']);
 
-$remote_accounts = get_remote_accts_for_iuids($incoming_mapped_attributes["iuid"]);
+$apicall = explode("/",$api_actual);
 
-$cuid = get_cuid_for_remote_accts($remote_accounts);
-
-# unknown user
-if (empty($remote_accounts)) {
-    make_header($menuitems);
-    make_error_message(auxi_lang("unknown_user"));
-    make_footer();
-    exit(0);
-} 
-
-$data = query_matrix("SELECT actor_cuid, target_cuid, `action`,`data`,`timestamp` FROM audit_logs WHERE target_cuid = ? ORDER BY `timestamp` DESC LIMIT 100",$cuid);
-
-make_header($menuitems);
-make_important_box(auxi_lang("your_audit_logs"));
-make_audit_log_screen($data);
-make_footer();
+if ($apicall[0] == "master-accounts" and $apicall[1] == "by-account-id") {
+    $iuid = $apicall[2];
+    core_log_debug("single IUID lookup:".$iuid);
+    $remote_accounts = get_remote_accts_for_iuids(array($iuid));
+    $cuid = get_cuid_for_remote_accts($remote_accounts);
+    echo $cuid;
+}
 
 ?>

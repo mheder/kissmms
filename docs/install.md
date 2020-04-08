@@ -18,7 +18,8 @@ The key of the attribute mappings should be the attribute internal names, while 
 
 ## Installing the code
 
-To install the code, set up a location protected by your SAML middleware and then simply unzip the code bundle and edit **conf.php** as described in the [setup documentation](install.md). You may brand and theme your deployment by editing the appropriate files (see the setup docs).
+To install the code, set up a location protected by your SAML middleware and then simply unzip the code bundle and edit **conf.php** as described in the [setup documentation](config.md). You may brand and theme your deployment by editing the appropriate files (see the setup docs).
+For production developments always use the latest bundle available and only install the latest git if you are developing.
 
 # Database schema
 
@@ -35,7 +36,7 @@ For account linking the crucial point is to be able to delete your SAML session 
 
 ```
 $shib_cookie_name = "_shibsession";
-$forceauthn_header = "Location: /Shibboleth.sso/Login?forceAuthn=true&target=" . urlencode($baseurl. '/acc_link.php');
+$forceauthn_header = "Location: /Shibboleth.sso/Login?forceAuthn=true&target=" . urlencode($baseurl. '/kiss_acc_link.php');
 ```
 
 # API
@@ -45,7 +46,7 @@ The API should not be SAML-protected, instead it should rely on Header-based aut
 The following example turns off Shibboleth for the API location then establishes http basic authentication, which is good enough over https and with an ip filtering. For more open setups you may consider stronger API auth.
 
 ```
-        <Location /<yourpath>/kissreg/api.php>
+        <Location /<yourpath>/kissreg/kiss_api.php>
                 ShibRequestSetting requireSession false
                 AuthType Basic
                 AuthName "Restricted Files"

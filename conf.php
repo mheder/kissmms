@@ -26,7 +26,7 @@
 ###########################################################
 
 # replace this to your FQDN!
-$core['baseurl']="http://localhost/dev/kissmms";
+$core['baseurl']="http://localhost/dev/ti/kissmms";
 
 ###########################################################
 # branding
@@ -56,7 +56,7 @@ $core['css'] = "core/style/style.css";
 # You can hide things so that 
 # they will need explicit link to access
 #
-$core['menuitems'] = array("index.php","audit_logs.php","acc_link.php","aup_new_user.php");
+$core['menuitems'] = array("index.php","kiss_audit_logs.php","kiss_acc_link.php","kiss_aup_new_user.php");
 
 ###########################################################
 # Database connection info
@@ -125,7 +125,7 @@ $kiss['attribute_mappings']["assurance"] = ["assurance"];
 # 
 ###########################################################
 $kiss['shib_cookie_name'] = "_shibsession";
-$kiss['forceauthn_header'] = "Location: /Shibboleth.sso/Login?forceAuthn=true&target=" . urlencode($baseurl. '/acc_link.php');
+$kiss['forceauthn_header'] = "Location: /Shibboleth.sso/Login?forceAuthn=true&target=" . urlencode($core['baseurl']. '/kiss_acc_link.php');
 
 ###########################################################
 # API
@@ -134,7 +134,7 @@ $kiss['forceauthn_header'] = "Location: /Shibboleth.sso/Login?forceAuthn=true&ta
 # See docs/install.md "API" section!
 #
 ###########################################################
-$kiss['api_basepath'] = "/dev/kissmms/api.php/";
+$kiss['api_basepath'] = "/dev/kissmms/kiss_api.php/";
 
 ###########################################################
 # email settings

@@ -32,36 +32,37 @@ $cuid = get_cuid_for_remote_accts($remote_accounts);
 # unknown user
 if (empty($remote_accounts)) {
     make_header($menuitems);
-    make_error_message(auxi_lang("unknown_user"));
+    make_error_message(core_lang("unknown_user"));
     make_footer();
     exit(0);
 } 
 
-$token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_STRING);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    foreach($_POST as $iname => $value ) {
+        
+        $name = base64_decode($iname);
 
-$email = query_scalar("SELECT email FROM email_tokens WHERE sender_cuid = ? AND token = ? AND consumed_at IS NULL",$cuid,$token);
-
-$consumed_email = query_scalar("SELECT email FROM email_tokens WHERE sender_cuid = ? AND token = ?",$cuid,$token);
-
-if (empty($email)) {
+        if(isset($attribute_defs[$name]) and $attribute_defs[$name]["customizable"] == "Y") {
+            attr_validate($attribute_defs[$name],$value);
+            db_update("REPLACE kiss_attributes (cuid,`name`,`source`,`value`) VALUES (?,?,'user_input',?) ",$cuid,$name,$value);            
+        } 
+        else {
+            make_header($menuitems);
+            make_error_message(core_lang("you_cannot_edit_this_attribute"));
+            make_footer();    
+            exit(0);
+        }
+        
+    }
+    audit_log($_SESSION["cuid"],$_SESSION["cuid"],"attribute modified",$name);
+    make_redirect("index.php");
+    exit(0);
+} else {
     make_header($menuitems);
-    if (!empty($consumed_email)) {
-        make_error_message(auxi_lang("token_already_consumed",$consumed_email));
-    }
-    else {
-        make_error_message(auxi_lang("token_error"));
-    }
-    make_footer();
-    exit(0);  
+    make_error_message(core_lang("no_incoming_form"));
+    make_footer();    
+    exit(0);
 }
 
-db_update("UPDATE email_tokens SET consumed_at = CURRENT_TIMESTAMP() WHERE sender_cuid = ? AND token = ?",$cuid,$token);
-
-db_update("UPDATE attributes SET assurance = 'verified' WHERE cuid = ? AND `name` = 'email' AND value = ?",$cuid,$email);
-
-make_header($menuitems);
-make_info_message(auxi_lang("email_verified",$email));
-make_footer();
-exit(0);
 
 ?>

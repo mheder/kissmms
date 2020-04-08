@@ -22,6 +22,7 @@ require_once "kiss/kiss_fns_attributes.php";
 require_once "kiss/kiss_fns_crypto.php";
 require_once "kiss/kiss_fns_email.php";
 require_once "kiss/kiss_fns_audit.php";
+require_once "kiss/kiss_html.php";
 
 include "core/init_core.php";
 

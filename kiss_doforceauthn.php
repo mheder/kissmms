@@ -18,13 +18,21 @@
 #
 ############################################################################
 
-function startsWith($string, $startString) { 
-    $len = strlen($startString); 
-    return (substr($string, 0, $len) === $startString); 
-} 
+include "kiss/init.php";
 
-function make_redirect($target) {
-    header("Location: ".$target);
+# in case of shibboleth,
+# instead of curl-ing the logout url (uncertain) we get rid of the shib session cookie
+# harmless: account linking is rare, and the stale session will expire
+if (isset($shib_cookie_name)) {
+    foreach ($_COOKIE as $key => $value) {
+            if(startsWith($key,$shib_cookie_name)) {
+                    unset($_COOKIE[$key]);
+            }
+    }
 }
+
+# todo : simplesaml logout
+
+header($kiss['forceauthn_header']);
 
 ?>

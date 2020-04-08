@@ -50,10 +50,10 @@ if (!empty($remote_accounts) and empty($_SESSION["acc_link_stored_cuid"])) {
     $_SESSION["acc_link_stored_cuid"] = $cuid;
     
     make_header($menuitems);
-    make_important_box(auxi_lang("al_head_text"));
-    make_text(auxi_lang("your_cuid",$cuid));
-    make_text(auxi_lang("your_current_source",$source_id));
-    make_text(auxi_lang("al_step_1"));
+    make_important_box(core_lang("al_head_text"));
+    make_text(core_lang("your_cuid",$cuid));
+    make_text(core_lang("your_current_source",$source_id));
+    make_text(core_lang("al_step_1"));
     make_acc_link_form();
     make_footer();
     exit(0);
@@ -64,11 +64,11 @@ if (!empty($remote_accounts) and !empty($_SESSION["acc_link_stored_cuid"])) {
     $cuid = $_SESSION["acc_link_stored_cuid"];
     $source_id = array_pop($incoming_mapped_attributes["source_id"]);
     make_header($menuitems);
-    make_important_box(auxi_lang("al_head_text"));
-    make_text(auxi_lang("your_cuid",$cuid));
-    make_text(auxi_lang("your_current_source",$source_id));
-    make_error_message(auxi_lang("this_remote_already_linked"));
-    make_text(auxi_lang("al_step_1"));
+    make_important_box(core_lang("al_head_text"));
+    make_text(core_lang("your_cuid",$cuid));
+    make_text(core_lang("your_current_source",$source_id));
+    make_error_message(core_lang("this_remote_already_linked"));
+    make_text(core_lang("al_step_1"));
     make_acc_link_form();
     make_footer();
     exit(0);
@@ -89,20 +89,20 @@ if (empty($remote_accounts) and !empty($_SESSION["acc_link_stored_cuid"])) {
         }
     }
 
-    $rid = db_insert("INSERT INTO remote_accounts (cuid, source_id, created_at) VALUES (?,?, CURRENT_TIMESTAMP())", $cuid, $source_id);
+    $rid = db_insert("INSERT INTO kiss_remote_accounts (cuid, source_id, created_at) VALUES (?,?, CURRENT_TIMESTAMP())", $cuid, $source_id);
     foreach ($incoming_mapped_attributes["iuid"] as $iuid) {
-        db_insert("INSERT INTO iuids (iuid, remote_account_id) VALUES (?,?)",$iuid,$rid);
+        db_insert("INSERT INTO kiss_iuids (iuid, remote_account_id) VALUES (?,?)",$iuid,$rid);
     }
     foreach ($attributes_to_save as $key => $values) {
         foreach ($values as $value) {
-            db_insert("INSERT INTO attributes (cuid, `name`, `value`, `source`) VALUES (?,?,?,?)",$cuid,$key,$value,$source_id);
+            db_insert("INSERT INTO kiss_attributes (cuid, `name`, `value`, `source`) VALUES (?,?,?,?)",$cuid,$key,$value,$source_id);
         }
     }
 
     make_header($menuitems);
-    make_info_message(auxi_lang("account_linking_success"));
-    make_text(auxi_lang("your_cuid",$cuid));
-    make_text(auxi_lang("your_current_source",$source_id));
+    make_info_message(core_lang("account_linking_success"));
+    make_text(core_lang("your_cuid",$cuid));
+    make_text(core_lang("your_current_source",$source_id));
     make_footer();
     exit(0);
 
@@ -111,8 +111,8 @@ if (empty($remote_accounts) and !empty($_SESSION["acc_link_stored_cuid"])) {
 # wrong state: user arrived with unknown account, no stored acc should go to registration instead
 $source_id = array_pop($incoming_mapped_attributes["source_id"]);
 make_header($menuitems);
-make_error_message(auxi_lang("acc_link_account_unknown"));
-make_text(auxi_lang("your_current_source",$source_id));
+make_error_message(core_lang("acc_link_account_unknown"));
+make_text(core_lang("your_current_source",$source_id));
 make_footer();
 exit(0);
 

@@ -18,21 +18,11 @@
 #
 ############################################################################
 
-#
-# This will use whatever is set up in php ini to send email
-# see the php configuration "sendmail_path"
-# recommended to use ssmtp
-#
-function auxi_send_email($to, $subject, $message, $html = false) {
+include "kiss/init.php";
+make_header($menuitems);
 
-    $headers[] = 'MIME-Version: 1.0';
-    if ($html) {
-        $headers[] = 'Content-type: text/html; charset=utf-8';
-    }
-    $headers[] = 'From: ' . $GLOBALS['kiss']['email_from'];
+echo core_static_content("aup");
 
-    mail($to, $subject, $message, $headers);
-
-}
+make_footer();
 
 ?>

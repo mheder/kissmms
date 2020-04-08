@@ -30,7 +30,7 @@ $user_found = user_exists_by_iuid($_SESSION["iuid"]);
 # could be a form resubmission, user has no business being here
 if ($user_found) {
     make_header($menuitems);
-    make_error_message(auxi_lang("already_have_account_no_reg"));
+    make_error_message(core_lang("already_have_account_no_reg"));
     make_footer();
     exit(0);
 } 
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST["aup_checkbox"])) {
         if($_POST["aup_checkbox"] != "check") {
             make_header($menuitems);
-            make_error_message(auxi_lang("aup_unchecked"));
+            make_error_message(core_lang("aup_unchecked"));
             make_footer();    
             exit(0);
         }
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($def["required"] == "Y") {
                     if (!isset($attributes_to_save[$key])) {
                         make_header($menuitems);
-                        make_error_message(auxi_lang("missing required_attr", auxi_lang("attribute_".$key)));
+                        make_error_message(core_lang("missing required_attr", core_lang("attribute_".$key)));
                         make_footer();    
                         exit(0);
                     }
@@ -97,10 +97,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             # now create the new account
-            db_insert("INSERT INTO accounts (cuid,created_at,updated_at) VALUES (?,CURRENT_TIMESTAMP(),CURRENT_TIMESTAMP())",$_SESSION["cuid"]);
-            $rid = db_insert("INSERT INTO remote_accounts (cuid, source_id, created_at) VALUES (?,?, CURRENT_TIMESTAMP())", $_SESSION["cuid"], $source_id);
+            db_insert("INSERT INTO kiss_accounts (cuid,created_at,updated_at) VALUES (?,CURRENT_TIMESTAMP(),CURRENT_TIMESTAMP())",$_SESSION["cuid"]);
+            $rid = db_insert("INSERT INTO kiss_remote_accounts (cuid, source_id, created_at) VALUES (?,?, CURRENT_TIMESTAMP())", $_SESSION["cuid"], $source_id);
             foreach ($_SESSION["iuid"] as $iuid) {
-                db_insert("INSERT INTO iuids (iuid, remote_account_id) VALUES (?,?)",$iuid,$rid);
+                db_insert("INSERT INTO kiss_iuids (iuid, remote_account_id) VALUES (?,?)",$iuid,$rid);
             }
             foreach ($attributes_to_save as $key => $values) {
                 foreach ($values as $value) {
@@ -112,14 +112,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $effectiveSource = "user_input";
                     }
 
-                    db_insert("INSERT INTO attributes (cuid, `name`, `value`, `source`) VALUES (?,?,?,?)",$_SESSION["cuid"],$key,$value,$effectiveSource);
+                    db_insert("INSERT INTO kiss_attributes (cuid, `name`, `value`, `source`) VALUES (?,?,?,?)",$_SESSION["cuid"],$key,$value,$effectiveSource);
                 }
             }
             $email = array_pop($_SESSION["attributes"]["email"]);
             if (isset($email)) {
                 send_email_verifier($_SESSION["cuid"],$email);
             } else {
-                auxi_log_error("No email address to send the invite to.");
+                core_log_error("No email address to send the invite to.");
             }
             audit_log($_SESSION["cuid"],$_SESSION["cuid"],"registration successful");
         }
@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 else {
     make_header($menuitems);
-    make_error_message(auxi_lang("no_incoming_form"));
+    make_error_message(core_lang("no_incoming_form"));
     make_footer();    
     exit(0);
 }
@@ -146,9 +146,9 @@ if (isset($_POST['attribute_redirect_url'])) {
         exit(0);
     } else {
         make_header($menuitems);
-        make_info_message(auxi_lang("account_successfully_saved"));
-        make_info_message(auxi_lang("your_cuid",$_SESSION["cuid"]));
-        make_error_message(auxi_lang("invalid_redirect_url", $url));
+        make_info_message(core_lang("account_successfully_saved"));
+        make_info_message(core_lang("your_cuid",$_SESSION["cuid"]));
+        make_error_message(core_lang("invalid_redirect_url", $url));
         make_footer();
         exit(0);
     }
@@ -156,6 +156,6 @@ if (isset($_POST['attribute_redirect_url'])) {
 
 # no redirect, we are generating html
 make_header($menuitems);
-make_info_message(auxi_lang("account_successfully_saved"));
-make_info_message(auxi_lang("your_cuid",$_SESSION["cuid"]));
+make_info_message(core_lang("account_successfully_saved"));
+make_info_message(core_lang("your_cuid",$_SESSION["cuid"]));
 make_footer();

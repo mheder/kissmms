@@ -31,7 +31,7 @@ $remote_accounts = get_remote_accts_for_iuids($incoming_mapped_attributes["iuid"
 # unknown user
 if (empty($remote_accounts)) {
     make_header($menuitems);
-    make_error_message(auxi_lang("unknown_user"));
+    make_error_message(core_lang("unknown_user"));
     make_footer();
     exit(0);
 } 
@@ -46,7 +46,7 @@ $cuid = get_cuid_for_remote_accts($remote_accounts);
 $manscreen_data = array();
 
 // display cuid
-$cuid_date = query_scalar("SELECT created_at FROM accounts WHERE cuid = ?",$cuid);
+$cuid_date = query_scalar("SELECT created_at FROM kiss_accounts WHERE cuid = ?",$cuid);
 array_push($manscreen_data,array('cuid',"<b>" . $cuid . "</b>","local","",$cuid_date,"",""));
 
 // display current source
@@ -54,7 +54,7 @@ $source_id = array_pop($incoming_mapped_attributes["source_id"]);
 array_push($manscreen_data,array('current_source',"<b>" . $source_id . "</b>","","","",""));
 
 // display remote_accounts
-$stored_remote_accounts = query_matrix("SELECT source_id, created_at FROM remote_accounts WHERE cuid = ?", $cuid);
+$stored_remote_accounts = query_matrix("SELECT source_id, created_at FROM kiss_remote_accounts WHERE cuid = ?", $cuid);
 foreach($stored_remote_accounts as $remote) {
     array_push($manscreen_data, array('remote_act',$remote['source_id'],"","",$remote['created_at'],""));
 }
@@ -63,7 +63,7 @@ $editable_but_empty = array();
 
 //display attributes
 foreach($attribute_defs as $name => $def) {
-    $attrval = query_matrix("SELECT value, source, assurance,updated_at FROM attributes WHERE cuid = ? AND name = ?", $cuid, $name);
+    $attrval = query_matrix("SELECT value, source, assurance,updated_at FROM kiss_attributes WHERE cuid = ? AND name = ?", $cuid, $name);
     if (empty($attrval)) {
         if ($def["customizable"] != "Y") {
             continue;
@@ -107,22 +107,22 @@ foreach($attribute_defs as $name => $def) {
     
     $edit_str = "";
     if ($def["customizable"] == "Y") {
-        $edit_str = '<a href="attr_edit.php?attrname=' . urlencode($name) .'">'. auxi_lang("edit_attribute") . "</a>";
+        $edit_str = '<a href="kiss_attr_edit.php?attrname=' . urlencode($name) .'">'. core_lang("edit_attribute") . "</a>";
     }
     else {
-        $edit_str = auxi_lang("attribute_read_only");
+        $edit_str = core_lang("attribute_read_only");
     }
     
     array_push($manscreen_data, array("attribute_".$name, $attr_str, $source_str , $assurance_str ,$update_str, $edit_str ));
 }
 
 foreach ($editable_but_empty as $aname) {
-    $edit_str = '<a href="attr_edit.php?attrname=' . urlencode($aname) .'">'. auxi_lang("edit_attribute") . "</a>";
-    array_push($manscreen_data, array("attribute_".$aname, auxi_lang("no_value") , $edit_str));
+    $edit_str = '<a href="kiss_attr_edit.php?attrname=' . urlencode($aname) .'">'. core_lang("edit_attribute") . "</a>";
+    array_push($manscreen_data, array("attribute_".$aname, core_lang("no_value") , $edit_str));
 }
 
 make_header($menuitems);
-make_important_box(auxi_lang("your_account_data"));
+make_important_box(core_lang("your_account_data"));
 make_manscreen($manscreen_data);
 make_footer();
 

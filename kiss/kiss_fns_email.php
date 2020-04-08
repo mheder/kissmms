@@ -25,13 +25,13 @@ function generate_token() {
 function send_email_verifier($cuid,$email) {
     $token = generate_token();
 
-    db_insert("INSERT INTO email_tokens (`type`, sender_cuid, email, token) VALUES ('verify',?,?,?)",$cuid,$email,$token);
+    db_insert("INSERT INTO kiss_email_tokens (`type`, sender_cuid, email, token) VALUES ('verify',?,?,?)",$cuid,$email,$token);
 
-    $link = $GLOBALS['baseurl'] . "/email_verify.php?token=" . $token;
+    $link = $GLOBALS['baseurl'] . "/kiss_email_verify.php?token=" . $token;
 
-    $content = auxi_static_content("email_verify", $link);
+    $content = core_static_content("email_verify", $link);
 
-    auxi_send_email($email,auxi_lang("email_verify_subject"),$content, true);
+    core_send_email($email,core_lang("email_verify_subject"),$content, true);
 
 }
 

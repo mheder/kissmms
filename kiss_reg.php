@@ -37,7 +37,7 @@ $user_found = user_exists_by_iuid($incoming_mapped_attributes["iuid"]);
 # the incoming attributes are discarded as ending up here is a mistake
 if ($user_found) {
     make_header($menuitems);
-    make_info_message(auxi_lang("already_have_account_no_reg"));
+    make_info_message(core_lang("already_have_account_no_reg"));
     make_footer();
     exit(0);
 } else {

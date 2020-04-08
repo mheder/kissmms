@@ -10,8 +10,8 @@ DROP TABLE IF EXISTS `accounts`;
 DROP TABLE IF EXISTS `attributes`;
 DROP TABLE IF EXISTS `attribute_defs`;
 DROP TABLE IF EXISTS `audit_logs`;
-DROP TABLE IF EXISTS `auxi_lang`;
-DROP TABLE IF EXISTS `auxi_pages`;
+DROP TABLE IF EXISTS `core_lang`;
+DROP TABLE IF EXISTS `core_pages`;
 DROP TABLE IF EXISTS `email_tokens`;
 DROP TABLE IF EXISTS `iuids`;
 DROP TABLE IF EXISTS `remote_accounts`;
@@ -91,7 +91,7 @@ CREATE TABLE `remote_accounts` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Remote Accounts';
 
-CREATE TABLE `auxi_lang` (
+CREATE TABLE `core_lang` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `txkey` varchar(128) NOT NULL COMMENT 'Key',
   `lang` varchar(4) NOT NULL COMMENT 'Lang',
@@ -100,7 +100,7 @@ CREATE TABLE `auxi_lang` (
   UNIQUE KEY `txkey_lang` (`txkey`,`lang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Translations';
 
-CREATE TABLE `auxi_pages` (
+CREATE TABLE `core_pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `txkey` varchar(128) NOT NULL COMMENT 'Key',
   `lang` varchar(4) NOT NULL COMMENT 'Lang',

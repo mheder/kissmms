@@ -18,29 +18,6 @@
 #
 ############################################################################
 
-function start_table($headings){
-    echo "\n<table class=\"bigtable\">\n";
-    echo "<tr>";
-    foreach($headings as $heading_val) {
-        echo "<th>";
-        echo auxi_lang($heading_val); //it does echo the stuff you need
-        echo "</th>"; 
-    }    
-    echo "</tr>\n";
-}
-
-function make_table_row($data) {
-    echo "<tr>";
-    foreach($data as $td) {
-        echo "<td>$td</td>";
-    }
-    echo "</tr>\n";
-}
-
-function end_table() {
-    echo "</table>\n";
-}
-
 function make_audit_log_screen($data) {
     start_table(array("actor_cuid","target_cuid","action","data","timestamp"));
     foreach ($data as $d) {
@@ -53,7 +30,7 @@ function make_manscreen($data) {
     start_table(array("attribute","value","source","assurance","updated_at","extrainfo"));
     foreach ($data as $d) {
         
-        make_table_row(array(auxi_lang($d[0]),$d[1],$d[2],$d[3],$d[4],$d[5]));
+        make_table_row(array(core_lang($d[0]),$d[1],$d[2],$d[3],$d[4],$d[5]));
     }
     end_table();
 }
@@ -61,14 +38,14 @@ function make_manscreen($data) {
 function make_regscreen($data,$cuid) {
 ?>
     <div id="centerbox">
-        <div class="important_box"><h2><?php echo auxi_lang("your_new_account"); ?></h2></div>
-        <form action="reg_save.php" method="post" 
-        onsubmit="if(document.getElementById('agree').checked) { return true; } else { alert('<?php echo auxi_lang("need_agree_policy"); ?>'); return false; }">
+        <div class="important_box"><h2><?php echo core_lang("your_new_account"); ?></h2></div>
+        <form action="kiss_reg_save.php" method="post" 
+        onsubmit="if(document.getElementById('agree').checked) { return true; } else { alert('<?php echo core_lang("need_agree_policy"); ?>'); return false; }">
         <table class="regtable">
         <tr><th><?php 
-        echo auxi_lang("attribute_name");
-        ?></th><th><?php echo auxi_lang("attribute_value");?></th></tr>
-        <tr><td><?php echo auxi_lang("attribute_cuid"); ?></td><td><?php echo $cuid; ?></td></tr>
+        echo core_lang("attribute_name");
+        ?></th><th><?php echo core_lang("attribute_value");?></th></tr>
+        <tr><td><?php echo core_lang("attribute_cuid"); ?></td><td><?php echo $cuid; ?></td></tr>
 <?php
 foreach($data as $key => $attrcomplex) {
 ?>
@@ -77,7 +54,7 @@ foreach($data as $key => $attrcomplex) {
         if ($attrcomplex[0]["required"] == "Y") {
             echo "&nbsp;*&nbsp;";
         }                
-        echo auxi_lang("attribute_" . $key); 
+        echo core_lang("attribute_" . $key); 
         ?></td>
         <td><?php
         if (empty($attrcomplex[1]) and $attrcomplex[0]["customizable"] == "Y") {
@@ -103,7 +80,7 @@ foreach($data as $key => $attrcomplex) {
 ?>
         </table>
         <div class="important_box">
-            <input type="checkbox" name="aup_checkbox" value="check" id="agree" /><?php echo auxi_lang("agree_policy"); ?><br>
+            <input type="checkbox" name="aup_checkbox" value="check" id="agree" /><?php echo core_lang("agree_policy"); ?><br>
             <input id="submitbutton" type="submit" name="submit" value="submit" />
         </div>
         </form>
@@ -111,35 +88,11 @@ foreach($data as $key => $attrcomplex) {
 <?php
 }
 
-function make_error_message($message) {
-    ?>
-        <div class="error_message"><?php echo $message; ?></div>
-    <?php
-    }
-
-function make_info_message($message) {
-    ?>
-        <div class="info_message"><?php echo $message; ?></div>
-    <?php
-    }    
-
-function make_important_box($message) {
-    ?>
-    <div class="important_box"><h2><?php echo $message ?></h2></div>
-    <?php
-}
-
-function make_text($message) {
-    ?>
-    <p><?php echo $message ?></p>
-    <?php
-}
-
 function make_acc_link_form() {
 ?>
     <div class="important_box">
-    <form method="get" action="doforceauthn.php"> 
-                <input type="submit" value="<?php echo auxi_lang("cont_account_linking"); ?>" /> 
+    <form method="get" action="kiss_doforceauthn.php"> 
+                <input type="submit" value="<?php echo core_lang("cont_account_linking"); ?>" /> 
     </form>
     </div>
 <?php
@@ -149,10 +102,10 @@ function make_attr_edit_form($data) {
     $ilabel = base64_encode($data[0]['name']);
     ?>
     <div class="important_box">
-        <form method="POST" action="attr_edit_save.php">
-            <label for="<?php echo $ilabel; ?>"><b><?php echo auxi_lang("attribute_".$data[0]['name']); ?></b></label>
+        <form method="POST" action="kiss_attr_edit_save.php">
+            <label for="<?php echo $ilabel; ?>"><b><?php echo core_lang("attribute_".$data[0]['name']); ?></b></label>
             <input type="input" name="<?php echo $ilabel;?>" value="<?php echo $data[0]['value']; ?>"/> <br><br>
-            <input type="submit" value="<?php echo auxi_lang("save_attr_value"); ?>" /> 
+            <input type="submit" value="<?php echo core_lang("save_attr_value"); ?>" /> 
         </form>
     </div>
     <?php

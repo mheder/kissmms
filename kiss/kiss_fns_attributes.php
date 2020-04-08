@@ -28,7 +28,7 @@ function check_for_similar_account($attributes) {
 
 function load_attribute_definitions() {
 
-    $attribute_defs_raw = query_matrix("SELECT name, required, multival, customizable, displayed, validator_regex FROM attribute_defs");
+    $attribute_defs_raw = query_matrix("SELECT name, required, multival, customizable, displayed, validator_regex FROM kiss_attribute_defs");
 
     $attribute_defs = array();
     foreach($attribute_defs_raw as $def) {
@@ -49,14 +49,14 @@ function load_attribute_definitions() {
 function sanity_check_incoming_attributes($incoming) {
     # No IUID incoming which is always an error
     if (!isset($incoming["iuid"])) {
-        make_error_message(auxi_lang("no_iuid_received"));
+        make_error_message(core_lang("no_iuid_received"));
         make_footer();
         exit(0);
     }
 
     # No source incoming which is always an error
     if (!isset($incoming["source_id"])) {
-        make_error_message(auxi_lang("no_source_id_received"));
+        make_error_message(core_lang("no_source_id_received"));
         make_footer();
         exit(0);
     }
@@ -64,7 +64,7 @@ function sanity_check_incoming_attributes($incoming) {
 
 function user_exists_by_iuid($iuids) {
     foreach($iuids as $iuid) {
-        $remote_accounts = query_vector("SELECT remote_account_id FROM iuids WHERE iuid = ?", $iuid);
+        $remote_accounts = query_vector("SELECT remote_account_id FROM kiss_iuids WHERE iuid = ?", $iuid);
     
         if(!empty($remote_accounts)) {
             return true;
@@ -77,7 +77,7 @@ function get_remote_accts_for_iuids($iuids) {
     $remote_accounts = array();
     foreach($iuids as $iuid) {
 
-        $remote_account_id = query_scalar("SELECT remote_account_id FROM iuids WHERE iuid = ?", $iuid);
+        $remote_account_id = query_scalar("SELECT remote_account_id FROM kiss_iuids WHERE iuid = ?", $iuid);
     
         if(!empty($remote_account_id)) {
             
@@ -92,14 +92,14 @@ function get_remote_accts_for_iuids($iuids) {
 function get_cuid_for_remote_accts($remote_accounts) {
     $cuid = null;
     foreach($remote_accounts as $remote) {
-        $remote_acc = query_matrix("SELECT cuid, source_id, created_at FROM remote_accounts WHERE id = ?", $remote);
+        $remote_acc = query_matrix("SELECT cuid, source_id, created_at FROM kiss_remote_accounts WHERE id = ?", $remote);
         if (empty($cuid)) {
             $cuid = $remote_acc[0]['cuid'];
         } else {
             if ($remote_acc[0]['cuid'] != $cuid) {
-                auxi_log_error("Multiple CUIDs:". $cuid . " vs:" .$remote_acc[0]['cuid']);
+                core_log_error("Multiple CUIDs:". $cuid . " vs:" .$remote_acc[0]['cuid']);
                 make_header($menuitems);
-                make_error_message(auxi_lang("multiple_cuids"));
+                make_error_message(core_lang("multiple_cuids"));
                 make_footer();
                 exit(0);
             }
@@ -120,9 +120,9 @@ function load_attributes($mappings) {
 
     foreach($mappings as $key => $mapping) {
         foreach($mapping as $item) {
-            auxi_log_trace("Checking $item for attr $key");
+            core_log_trace("Checking $item for attr $key");
             if (isset($source[$item])) {
-                auxi_log_trace("Found $item for attr $key");
+                core_log_trace("Found $item for attr $key");
                 if (!isset($ret[$key])) {
                     if(is_array($source[$item])) {
                         $ret[$key] = $source[$item];
@@ -146,8 +146,8 @@ function attr_validate($def,$value) {
     $name = $def["name"];
     if (isset($def['validator_regex']) and ($def['validator_regex'] != "NULL") and !preg_match($def['validator_regex'],$value)) {
         make_header($menuitems);
-        make_error_message(auxi_lang("value_validation_fail",$value));
-        make_info_message(auxi_lang("attribute_".$name."_validation_info"));
+        make_error_message(core_lang("value_validation_fail",$value));
+        make_info_message(core_lang("attribute_".$name."_validation_info"));
         make_footer();    
         exit(0);
     }
