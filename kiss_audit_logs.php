@@ -20,26 +20,11 @@
 
 include "kiss/init.php";
 
-$attribute_defs = load_attribute_definitions();
-$incoming_mapped_attributes = load_attributes($kiss['attribute_mappings']);
-
-sanity_check_incoming_attributes($incoming_mapped_attributes);
-
-$remote_accounts = get_remote_accts_for_iuids($incoming_mapped_attributes["iuid"]);
-
-$cuid = get_cuid_for_remote_accts($remote_accounts);
-
-# unknown user
-if (empty($remote_accounts)) {
-    make_header($menuitems);
-    make_error_message(core_lang("unknown_user"));
-    make_footer();
-    exit(0);
-} 
+$cuid = load_user($kiss);
 
 $data = query_matrix("SELECT actor_cuid, target_cuid, `action`,`data`,`timestamp` FROM kiss_audit_logs WHERE target_cuid = ? ORDER BY `timestamp` DESC LIMIT 100",$cuid);
 
-make_header($menuitems);
+make_header();
 make_important_box(core_lang("your_audit_logs"));
 make_audit_log_screen($data);
 make_footer();

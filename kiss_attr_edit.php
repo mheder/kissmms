@@ -21,33 +21,20 @@
 include "kiss/init.php";
 
 $attribute_defs = load_attribute_definitions();
-$incoming_mapped_attributes = load_attributes($kiss['attribute_mappings']);
 
-sanity_check_incoming_attributes($incoming_mapped_attributes);
-
-$remote_accounts = get_remote_accts_for_iuids($incoming_mapped_attributes["iuid"]);
-
-$cuid = get_cuid_for_remote_accts($remote_accounts);
-
-# unknown user
-if (empty($remote_accounts)) {
-    make_header($menuitems);
-    make_error_message(core_lang("unknown_user"));
-    make_footer();
-    exit(0);
-} 
+$cuid = load_user($kiss);
 
 $attrname = filter_input(INPUT_GET, 'attrname', FILTER_SANITIZE_STRING);
 
 if(!isset($attribute_defs[$attrname])) {
-    make_header($menuitems);
+    make_header();
     make_error_message(core_lang("undefined_attribute",$attrname));
     make_footer();
     exit(0); 
 }
 
 if($attribute_defs[$attrname]["customizable"] != "Y") {
-    make_header($menuitems);
+    make_header();
     make_error_message(core_lang("attr_not_editable",$attrname));
     make_footer();
     exit(0); 
@@ -56,7 +43,7 @@ if($attribute_defs[$attrname]["customizable"] != "Y") {
 # This edits the first one. TODO multi-value edit
 $attrdata = query_matrix("SELECT name,source,value FROM kiss_attributes WHERE name = ? AND cuid = ? AND source = 'user_input' LIMIT 1",$attrname, $cuid);
 
-make_header($menuitems);
+make_header();
 make_important_box(core_lang("attr_edit_head"));
 make_text(core_lang("your_cuid",$cuid));
 if (!empty($attrdata)) {

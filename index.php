@@ -30,7 +30,7 @@ $remote_accounts = get_remote_accts_for_iuids($incoming_mapped_attributes["iuid"
 
 # unknown user
 if (empty($remote_accounts)) {
-    make_header($menuitems);
+    make_header();
     make_error_message(core_lang("unknown_user"));
     make_footer();
     exit(0);
@@ -121,7 +121,7 @@ foreach ($editable_but_empty as $aname) {
     array_push($manscreen_data, array("attribute_".$aname, core_lang("no_value") , $edit_str));
 }
 
-make_header($menuitems);
+make_header();
 make_important_box(core_lang("your_account_data"));
 make_manscreen($manscreen_data);
 make_footer();

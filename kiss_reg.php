@@ -36,7 +36,7 @@ $user_found = user_exists_by_iuid($incoming_mapped_attributes["iuid"]);
 # already existing user, showing message
 # the incoming attributes are discarded as ending up here is a mistake
 if ($user_found) {
-    make_header($menuitems);
+    make_header();
     make_info_message(core_lang("already_have_account_no_reg"));
     make_footer();
     exit(0);
@@ -88,7 +88,7 @@ if(isset($_GET['redirect_url'])) {
     $regscreen_data['redirect_url'] = array(array("displayed" => "N"),array($_GET['redirect_url']));
 }
 
-make_header($menuitems);   
+make_header();   
 
 make_regscreen($regscreen_data, $cuid);
 

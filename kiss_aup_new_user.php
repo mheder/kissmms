@@ -19,7 +19,7 @@
 ############################################################################
 
 include "kiss/init.php";
-make_header($menuitems);
+make_header();
 
 echo core_static_content("aup");
 

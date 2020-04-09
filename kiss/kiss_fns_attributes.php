@@ -41,7 +41,6 @@ function load_attribute_definitions() {
         $attribute_defs[$def["name"]]["validator_regex"] = $def["validator_regex"];
     }
 
-
     #make_info_message(print_r($attribute_defs,true));
     return $attribute_defs;
 }
@@ -98,7 +97,7 @@ function get_cuid_for_remote_accts($remote_accounts) {
         } else {
             if ($remote_acc[0]['cuid'] != $cuid) {
                 core_log_error("Multiple CUIDs:". $cuid . " vs:" .$remote_acc[0]['cuid']);
-                make_header($menuitems);
+                make_header();
                 make_error_message(core_lang("multiple_cuids"));
                 make_footer();
                 exit(0);
@@ -142,15 +141,44 @@ function load_attributes($mappings) {
     return $ret;
 }
 
+/*
+Validate value against attribute def. regex
+*/
+
 function attr_validate($def,$value) {
     $name = $def["name"];
     if (isset($def['validator_regex']) and ($def['validator_regex'] != "NULL") and !preg_match($def['validator_regex'],$value)) {
-        make_header($menuitems);
+        make_header();
         make_error_message(core_lang("value_validation_fail",$value));
         make_info_message(core_lang("attribute_".$name."_validation_info"));
         make_footer();    
         exit(0);
     }
+}
+
+/* 
+Loads a user from the env vars, based on configuration and mappings  
+usually called at the beginning of the page 
+*/
+
+function load_user($kiss) {
+
+    $incoming_mapped_attributes = load_attributes($kiss['attribute_mappings']);
+    sanity_check_incoming_attributes($incoming_mapped_attributes);
+    $remote_accounts = get_remote_accts_for_iuids($incoming_mapped_attributes["iuid"]);
+
+    # unknown user
+    if (empty($remote_accounts)) {
+        make_header();
+        make_error_message(core_lang("unknown_user"));
+        make_footer();
+        exit(0);
+    } 
+
+    $cuid = get_cuid_for_remote_accts($remote_accounts);
+
+    return $cuid;
+
 }
 
 

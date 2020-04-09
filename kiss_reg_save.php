@@ -29,7 +29,7 @@ $user_found = user_exists_by_iuid($_SESSION["iuid"]);
 # already existing user, showing message
 # could be a form resubmission, user has no business being here
 if ($user_found) {
-    make_header($menuitems);
+    make_header();
     make_error_message(core_lang("already_have_account_no_reg"));
     make_footer();
     exit(0);
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST["aup_checkbox"])) {
         if($_POST["aup_checkbox"] != "check") {
-            make_header($menuitems);
+            make_header();
             make_error_message(core_lang("aup_unchecked"));
             make_footer();    
             exit(0);
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             foreach($attribute_defs as $key => $def) {
                 if ($def["required"] == "Y") {
                     if (!isset($attributes_to_save[$key])) {
-                        make_header($menuitems);
+                        make_header();
                         make_error_message(core_lang("missing required_attr", core_lang("attribute_".$key)));
                         make_footer();    
                         exit(0);
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 else {
-    make_header($menuitems);
+    make_header();
     make_error_message(core_lang("no_incoming_form"));
     make_footer();    
     exit(0);
@@ -145,7 +145,7 @@ if (isset($_POST['attribute_redirect_url'])) {
         make_redirect(urldecode($url));
         exit(0);
     } else {
-        make_header($menuitems);
+        make_header();
         make_info_message(core_lang("account_successfully_saved"));
         make_info_message(core_lang("your_cuid",$_SESSION["cuid"]));
         make_error_message(core_lang("invalid_redirect_url", $url));
@@ -155,7 +155,7 @@ if (isset($_POST['attribute_redirect_url'])) {
 }
 
 # no redirect, we are generating html
-make_header($menuitems);
+make_header();
 make_info_message(core_lang("account_successfully_saved"));
 make_info_message(core_lang("your_cuid",$_SESSION["cuid"]));
 make_footer();

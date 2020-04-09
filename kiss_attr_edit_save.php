@@ -20,22 +20,9 @@
 
 include "kiss/init.php";
 
+$cuid = load_user($kiss);
+
 $attribute_defs = load_attribute_definitions();
-$incoming_mapped_attributes = load_attributes($kiss['attribute_mappings']);
-
-sanity_check_incoming_attributes($incoming_mapped_attributes);
-
-$remote_accounts = get_remote_accts_for_iuids($incoming_mapped_attributes["iuid"]);
-
-$cuid = get_cuid_for_remote_accts($remote_accounts);
-
-# unknown user
-if (empty($remote_accounts)) {
-    make_header($menuitems);
-    make_error_message(core_lang("unknown_user"));
-    make_footer();
-    exit(0);
-} 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach($_POST as $iname => $value ) {
@@ -47,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             db_update("REPLACE kiss_attributes (cuid,`name`,`source`,`value`) VALUES (?,?,'user_input',?) ",$cuid,$name,$value);            
         } 
         else {
-            make_header($menuitems);
+            make_header();
             make_error_message(core_lang("you_cannot_edit_this_attribute"));
             make_footer();    
             exit(0);
@@ -58,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     make_redirect("index.php");
     exit(0);
 } else {
-    make_header($menuitems);
+    make_header();
     make_error_message(core_lang("no_incoming_form"));
     make_footer();    
     exit(0);
