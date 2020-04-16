@@ -18,7 +18,7 @@
 #
 ############################################################################
 
-include "kiss/init.php";
+include "init.php";
 
 $cuid = load_user($kiss);
 

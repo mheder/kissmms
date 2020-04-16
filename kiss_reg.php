@@ -18,7 +18,7 @@
 #
 ############################################################################
 
-include "kiss/init.php";
+include "init.php";
 
 $attribute_defs = load_attribute_definitions();
 # attribute_mappings come from config

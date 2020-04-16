@@ -18,7 +18,7 @@
 #
 ############################################################################
 
-include "kiss/init.php";
+include "init.php";
 
 //echo $_SERVER['REQUEST_URI'] . "<br/>";
 

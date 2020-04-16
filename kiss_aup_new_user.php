@@ -18,7 +18,7 @@
 #
 ############################################################################
 
-include "kiss/init.php";
+include "init.php";
 make_header();
 
 echo core_static_content("aup");
