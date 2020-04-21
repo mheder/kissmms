@@ -181,5 +181,10 @@ function load_user($kiss) {
 
 }
 
+/* get user attribute values for a given user and a given attributedef. Returns an array, anticipating multi-values.  */
+function get_user_attributes($cuid, $aname) {
+    $values = query_vector("SELECT `value` FROM kiss_attributes WHERE cuid = ? AND `name` = ?", $cuid,$aname);
+    return $values;
+}
 
 ?>

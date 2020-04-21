@@ -20,8 +20,6 @@
 
 include "init.php";
 
-$attribute_defs = load_attribute_definitions();
-
 $cuid = load_user($kiss);
 
 $token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_STRING);

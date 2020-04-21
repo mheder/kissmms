@@ -22,16 +22,26 @@ function generate_token() {
     return bin2hex(random_bytes(24));
 }
 
-function send_email_verifier($cuid,$email) {
+function send_email_verifier($cuid, 
+    $email, 
+    $contkey = "email_verify", 
+    $aname = null, 
+    $avalue = null) {
+    
     $token = generate_token();
 
-    db_insert("INSERT INTO kiss_email_tokens (`type`, sender_cuid, email, token) VALUES ('verify',?,?,?)",$cuid,$email,$token);
+    # TODO handle "type (verify/invite)" or drop it entirely"
+    if (!isset($aname)) {
+        db_insert("INSERT INTO kiss_email_tokens (`type`, sender_cuid, email, token) VALUES ('verify',?,?,?)",$cuid,$email,$token);
+    } else {
+        db_insert("INSERT INTO kiss_email_tokens (`type`, sender_cuid, email, token,granted_attribute_name,granted_attribute_value) VALUES ('verify',?,?,?,?,?)",$cuid,$email,$token,$aname,$avalue);
+    }
 
-    $link = $GLOBALS['baseurl'] . "/kiss_email_verify.php?token=" . $token;
+    $link = $GLOBALS['core']['baseurl'] . "/kiss_email_verify.php?token=" . $token;
 
-    $content = core_static_content("email_verify", $link);
+    $content = core_static_content($contkey, $link);
 
-    core_send_email($email,core_lang("email_verify_subject"),$content, true);
+    core_send_email($email,core_lang($contkey . "_subject"),$content, true);
 
 }
 
